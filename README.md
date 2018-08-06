@@ -1,61 +1,41 @@
-<p align="center">
-    <a href="https://github.com/yiisoft" target="_blank">
-        <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">
-    </a>
-    <h1 align="center">Yii 2 Advanced Project Template</h1>
-    <br>
-</p>
+Общие сведения
+    1.	Пользователи делятся на контрагентов и администраторов. Администратор присутствует один в системе изначально (с логином и паролем).	
+    2.	В системе есть внутренние счета и контрагенты
+    3.	Администратор может перечислить средства любому контрагенту. Контрагент может перечислить средства как администратору, так и другому контрагенту.
 
-Yii 2 Advanced Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
-developing complex Web applications with multiple tiers.
+Интерфейс пользователя
+    1.	Пользователь может зарегистрироваться или ввести email / пароль и войти в систему (присутствуют соотв. валидаторы).
 
-The template includes three tiers: front end, back end, and console, each of which
-is a separate Yii application.
+Панель администратора
+    1.	После входа в систему администратор видит название своего счёта, количество средств на нём и три элемента меню: список контрагентов, список переводов, перевод средств. 
+    2.	В списке контрагентов присутствуют все зарегистрированные контрагенты, представленные в таблице с фильтрами по соответствующим столбцам и с пагинацией по страницам (GridView).
+    3.	В списке переводов присутствуют все переводы(операции), представленные в таблице с фильтрами и пагинацией по страницам (GridView).
+    4.	На странице перевод средств присутствует форма для ввода email получателя и суммы перевода (присутствуют соотв. валидаторы). Отправитель не может отправить себе средства и не может перечислить сумму, превышающую сумму на его счёте.
+    
+Панель контрагента
+    После входа в систему контрагент видит название своего счёта, количество средств на нём и два три элемента меню: история переводов, перевод средств.
+    1.	В списке переводов присутствуют все переводы(операции) с участием контрагента, представленные в таблице с фильтрами и пагинацией по страницам (GridView).
+    2.	На странице перевод средств присутствует форма для ввода email получателя и суммы перевода (присутствуют соотв. валидаторы). Отправитель не может отправить себе средства и не может перечислить сумму, превышающую сумму на его счёте.
+    
+Порядок развёртывания проекта
+    1)Заходим в корневую папку, и в консоле прописываем composer install .
+    2)Далее прописываем php init и выбираем между dev и prod версией. 
+    3)При запуске браузера открывается список папок приложения, заходим в frontend\web (внизу указываю, как проблему)
+    4)Присутствуют миграции в папке console\migrations. В базе при накате миграций сразу присутствует админ:
+        username - admin
+        email - admin@mail.ru
+        password - admin
+    4)Наблюдая за функционалом нужно 
+        •	зарегистрировать 1 или более пользователя
+        •	 зайти по емейлу и паролю администратора 
+        •	перечислить средства контрагентам, зайти как контрагент, перечислить средства админу и другим контрагентам
+    Основной контроллер находится в папки frontend\controllers\SiteController.php, где присутствуют различные комментарии. Присутствуют таблицы связанные с помощью ActiveRecord (внешние ключи прописаны в миграциях, но закомментированы). 
+    
+Не решённые проблемы: 
+    1.	Не смог разделить сайт на frontend и backend с помощью RBAC (Role-based access control), поэтому часто встречаются конструкции типа if($role !== 1){}, где $role - роль пользователя, записанная в таблицу user. 
+    2.	Не смог решить проблему первоначального запуска сайта со списка папок проекта, с вынужденным входом в папку frontend\web.
 
-The template is designed to work in a team development environment. It supports
-deploying the application in different environments.
+СУБД - PostgreSQL, фреймворк - Yii2 advanced, локальный сервер - OpenServer (Модули: HTTP - Nginx-1.12, PHP - 7.1 x64, PostgreSQL - 9.6 x64)
 
-Documentation is at [docs/guide/README.md](docs/guide/README.md).
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/yiisoft/yii2-app-advanced.svg)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![Total Downloads](https://img.shields.io/packagist/dt/yiisoft/yii2-app-advanced.svg)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![Build Status](https://travis-ci.org/yiisoft/yii2-app-advanced.svg?branch=master)](https://travis-ci.org/yiisoft/yii2-app-advanced)
-
-DIRECTORY STRUCTURE
--------------------
-
-```
-common
-    config/              contains shared configurations
-    mail/                contains view files for e-mails
-    models/              contains model classes used in both backend and frontend
-    tests/               contains tests for common classes    
-console
-    config/              contains console configurations
-    controllers/         contains console controllers (commands)
-    migrations/          contains database migrations
-    models/              contains console-specific model classes
-    runtime/             contains files generated during runtime
-backend
-    assets/              contains application assets such as JavaScript and CSS
-    config/              contains backend configurations
-    controllers/         contains Web controller classes
-    models/              contains backend-specific model classes
-    runtime/             contains files generated during runtime
-    tests/               contains tests for backend application    
-    views/               contains view files for the Web application
-    web/                 contains the entry script and Web resources
-frontend
-    assets/              contains application assets such as JavaScript and CSS
-    config/              contains frontend configurations
-    controllers/         contains Web controller classes
-    models/              contains frontend-specific model classes
-    runtime/             contains files generated during runtime
-    tests/               contains tests for frontend application
-    views/               contains view files for the Web application
-    web/                 contains the entry script and Web resources
-    widgets/             contains frontend widgets
-vendor/                  contains dependent 3rd-party packages
-environments/            contains environment-based overrides
-```
 "# FirstProjectYii2" 
